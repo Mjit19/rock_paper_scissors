@@ -1,3 +1,5 @@
+console.log(game());
+
 // Computer chooses a random value between 0 - 2
 function getComputerChoice() {
     let value = Math.floor(Math.random() * 3);
@@ -22,7 +24,7 @@ function playerSelection() {
 
     // Check if it's valid
     if (pick !== "rock" && pick !== "paper" && pick !== "scissors") {
-        return "You failed to do a simple task, congratulations!";
+        throw new Error("You failed to do a simple task, congratulations!");
     }
 
     return pick;
@@ -60,8 +62,33 @@ function playRound(playerSelection, computerSelection) {
     return result;
 }
 // play game, print game result at the end
+function game() {
+    let gameResult = "The game is a draw!"
+    let playerScore = 0, computerScore = 0;
+    let roundResult = "";
+    
+    // Play 5 rounds
+    for (let i = 0; i < 5; i++) {
+        // Keep a tab on the score
+        roundResult = playRound(playerSelection(), getComputerChoice());
+        console.log(roundResult);
+        if (roundResult.charAt(4) === "L") {
+            computerScore++;
+        } else if (roundResult.charAt(4) === "W") {
+            playerScore++;
+        }
+    }
 
-//   Play 5 rounds
+    // Decide the winner
+    if (playerScore > computerScore) {
+        gameResult = "You Won the game!!!!"
+    } else if (playerScore < computerScore) {
+        gameResult = "You Lost the game!!!!"
+    }
+
+    return gameResult;
+}
+
 
 
 
