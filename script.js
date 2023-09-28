@@ -14,3 +14,17 @@ function getComputerChoice() {
 
     return result;
 }
+
+
+// Get and return user input
+function playerSelection() {
+    let pick = prompt("Choose between Rock/Paper/Scissors").toLowerCase();
+
+    // Check if it's valid
+    if (pick !== "rock" && pick !== "paper" && pick !== "scissors") {
+        return "You failed to do a simple task, congratulations!";
+    }
+
+    return pick;
+}
+
