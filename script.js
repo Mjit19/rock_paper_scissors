@@ -1,4 +1,40 @@
-console.log(game());
+const buttons = document.querySelectorAll('#container button');
+const resultDiv = document.createElement('div');
+const roundResult = document.createElement('div')
+const score = document.createElement('div')
+
+let computerScore = 0, playerScore = 0;
+
+resultDiv.classList.add('result');
+score.classList.add('score');
+
+buttons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        let target = event.target;
+    
+        roundResult.textContent = playRound(target.id, getComputerChoice());
+    
+        if (roundResult.textContent.charAt(4) === "L") {
+            computerScore++;
+        } else if (roundResult.textContent.charAt(4) === "W") {
+            playerScore++;
+        }
+
+        if (computerScore === 5 || playerScore === 5) {
+            alert(gameResult(playerScore, computerScore));
+    
+            playerScore = 0, computerScore = 0;
+        }
+    
+        score.textContent = `Player Score: ${playerScore} | Computer Score: ${computerScore}`;
+    
+        document.body.appendChild(resultDiv);
+        resultDiv.appendChild(roundResult);
+        resultDiv.appendChild(score);
+    });
+});
+
+
 
 // Computer chooses a random value between 0 - 2
 function getComputerChoice() {
@@ -18,11 +54,11 @@ function getComputerChoice() {
 }
 
 
-// Get and return user input
+// Asks for user input and return user input
 function playerSelection() {
     let pick = prompt("Choose between Rock/Paper/Scissors").toLowerCase();
 
-    // Check if it's valid
+    // Checks if input is one of the 3 options
     if (pick !== "rock" && pick !== "paper" && pick !== "scissors") {
         throw new Error("You failed to do a simple task, congratulations!");
     }
@@ -62,28 +98,12 @@ function playRound(playerSelection, computerSelection) {
     return result;
 }
 // play game, print game result at the end
-function game() {
-    let gameResult = "The game is a draw!"
-    let playerScore = 0, computerScore = 0;
-    let roundResult = "";
-    
-    // Play 5 rounds
-    for (let i = 0; i < 5; i++) {
-        // Keep a tab on the score
-        roundResult = playRound(playerSelection(), getComputerChoice());
-        console.log(roundResult);
-        if (roundResult.charAt(4) === "L") {
-            computerScore++;
-        } else if (roundResult.charAt(4) === "W") {
-            playerScore++;
-        }
-    }
-
-    // Decide the winner
+function gameResult(playerScore, computerScore) {
+    let gameResult = "";
     if (playerScore > computerScore) {
         gameResult = "You Won the game!!!!"
     } else if (playerScore < computerScore) {
-        gameResult = "You Lost the game!!!!"
+        gameResult = "Computer Won the game!!!!"
     }
 
     return gameResult;
